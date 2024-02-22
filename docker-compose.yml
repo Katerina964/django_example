@@ -1,0 +1,26 @@
+version: "3.1"
+
+services:
+  django:
+    build: .    
+    container_name: django
+    restart: always
+    command: python src/project/manage.py runserver 0.0.0.0:8000
+    # command: tail -f /dev/null
+    ports:
+      - 8000:8000
+    depends_on:
+      - postgres
+    volumes:
+      - .:/django_example
+
+  postgres:
+    image: postgres
+    restart: always
+    container_name: postgres
+    environment:
+      - POSTGRES_DB=db
+      - POSTGRES_PASSWORD=db
+      - POSTGRES_USER=db
+    ports:
+       - 5432:5432  
